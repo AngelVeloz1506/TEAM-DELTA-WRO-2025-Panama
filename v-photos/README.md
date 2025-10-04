@@ -14,7 +14,6 @@ Each view is documented with its respective image.
 ![Back](back.jpg)
 
 ---
-
 ## Left View
 ![Left](left.jpg)
 

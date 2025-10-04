@@ -1,15 +1,14 @@
 # TEAM DELTA — WRO 2025 Panama
 
-> Dominican Republic • Future Engineers • 2025
+> Dominican Republic • Future Engineers • 2025  
 
 ---
 
 ## Index
 
-## Index
-
 1. [Introduction](#introduction)  
-2. [Components](#components)  
+2. [The Team](#the-team)  
+3. [Components](#components)  
    - [Materials List](#materials-list)  
    - [ESP32 Controller](#esp32-controller)  
    - [Servo Motor (HS-485HB)](#servo-motor-hs-485hb)  
@@ -20,27 +19,40 @@
    - [Battery Pack](#battery-pack)  
    - [Motors](#motor)  
    - [Voltage Regulators (HW-083, LM2596)](#voltage-regulators-hw-083-lm2596)  
-3. [Robot Floors](#robot-floors)  
+4. [Robot Floors](#robot-floors)  
    - [First Floor](#first-floor)  
      - [Front Axle](#front-axle)  
      - [Rear Axle](#rear-axle)  
    - [Second Floor](#second-floor)  
    - [Third Floor](#third-floor)  
-4. [3D Design](#3d-design)  
+5. [3D Design](#3d-design)  
    - [Final Robot](#final-robot)  
    - [Prototype Versions](#prototype-versions)  
    - [Final STL Files](#final-stl-files)  
-5. [Circuit Diagram](#circuit-diagram)  
-6. [Videos](#videos)  
-
+6. [Circuit Diagram](#circuit-diagram)  
+7. [Videos](#videos)  
 
 ---
 
 ## Introduction
 
-**TEAM DELTA Δ** represents the Dominican Republic in the **World Robot Olympiad 2025 – Panama**, *Future Engineers* category. This repository documents the design, electronics, code, and iterations of our autonomous vehicle.
+**TEAM DELTA Δ** proudly represents the **Dominican Republic** in the **World Robot Olympiad 2025 – Panama**, competing in the *Future Engineers* category.  
 
-The project uses an **ESP32** as the main controller, **Pixy2** for color/shape detection, **three ultrasonic sensors** for distance measurement (front/left/right), **DRV8871** drivers for DC motors, and an **HS-485HB servo** for steering. Power distribution relies on **LM2596/HW-083** regulators.
+This repository documents the development of our autonomous vehicle: its **design process, 3D models, electronic circuits, coding, and iterative improvements**.  
+
+We are committed to combining **engineering, innovation, and teamwork** to achieve outstanding results in the 2025 season.  
+
+---
+
+## The Team
+
+**Team Members — Pontificia Universidad Madre y Maestra (PUCMM):**  
+- Ángel Veloz  
+- Luis Lockward  
+- Pedro Pérez  
+
+**Coach — Pontificia Universidad Madre y Maestra (PUCMM):**  
+- Álvaro Zapata  
 
 ---
 
@@ -160,11 +172,12 @@ Support for motors, steering servo, ultrasonic sensors, DRV8871 drivers, and bas
 
 ### Second Floor
 
-* ESP32, regulators, Pixy2 front-mounted, battery pack mounting, main switch,camera support and wiring distribution.  
+* ESP32, regulators, Pixy2 front-mounted, battery pack mounting, main switch, camera support and wiring distribution.  
 
 ### Third Floor
 
 * Reserved space for future expansions.  
+
 ---
 
 ## 3D Design
@@ -243,4 +256,4 @@ Inside, you will find a [`README.md`](videos/README.md) with:
 - Direct links to performance and testing videos.  
 - Documentation of open/closed challenges.  
 - Link to the official **YouTube channel** for more updates:  
-  [TEAM DELTA – YouTube Channel](https://www.youtube.com/channel/UCRmfdBhCKCmFW21Ekp9HE9g)  
+  [TEAM DELTA – YouTube Channel](https://www.youtube.com/channel/UCRmfdBhCKCmFW21Ekp9HE9g)
