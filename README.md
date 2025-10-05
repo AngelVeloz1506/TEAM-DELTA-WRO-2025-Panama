@@ -20,7 +20,7 @@
    - [Battery Pack](#battery-pack)  
    - [Motors](#motor)  
    - [Voltage Regulators (HW-083, LM2596)](#voltage-regulators-hw-083-lm2596)  
-4. [Robot Floors](#robot-floors)  
+4. [Robot Structure](#robot-structure)  
    - [First Floor](#first-floor)  
      - [Front Axle](#front-axle)  
      - [Rear Axle](#rear-axle)  
@@ -258,7 +258,7 @@ This diagram illustrates the wiring of the ESP32, DRV8871 drivers, Raspberry Pi,
 
 The [`videos/`](videos/) folder contains multimedia resources documenting the project.  
 
-Inside, you’ll find a [`README.md`](videos/README.md) with:  
+Inside, you’ll find a [`README.md`](/videos/README.md) with:  
 
 - Direct links to performance and testing videos  
 - Documentation of open / closed challenges  
