@@ -175,7 +175,9 @@ Three sensors: **front, left, right**.
 
 ---
 
-## Robot Floors
+## Robot Structure
+
+The robot’s mechanical structure is designed in multiple stacked floors, each serving a distinct function and housing specific components.
 
 ### First Floor
 
@@ -214,8 +216,6 @@ It is divided into two categories:
   Inside you’ll find:  
   - [`STL/`](models/RSLN118/STL/) — final printable meshes  
   - `STEP/` — editable CAD files  
-  - `Diff01/`, `Diff02/` — differential system components  
-  - `Hitec HS-485HB/` — servo integration parts  
   - `Test/` — auxiliary sub-assemblies  
   - individual SolidWorks parts (`Base`, `CenterShaft`, `ESP32 Shield`, etc.)  
 
