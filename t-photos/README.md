@@ -12,4 +12,3 @@
 ![Funny Photo](funny.jpg)
 
 ---
-
