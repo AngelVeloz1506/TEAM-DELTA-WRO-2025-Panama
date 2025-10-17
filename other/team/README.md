@@ -6,9 +6,9 @@
 
 <table>
   <tr>
-    <td><img src="../../t-photos/angel.jpg" alt="Ángel Veloz" width="220"></td>
-    <td><img src="../../t-photos/luis.jpg" alt="Luis Lockward" width="220"></td>
-    <td><img src="../../t-photos/pedro.jpg" alt="Pedro Pérez" width="220"></td>
+    <td><img src="../../t-photos/angel.jpg" alt="Ángel Veloz" height="350"></td>
+    <td><img src="../../t-photos/luis.jpg" alt="Luis Lockward" height="350"></td>
+    <td><img src="../../t-photos/pedro.jpg" alt="Pedro Pérez" height="350"></td>
   </tr>
   <tr>
     <td><b>Ángel Veloz</b></td>
@@ -19,10 +19,11 @@
 
 <br>
 
-<img src="../../t-photos/alvaro.jpg" alt="Álvaro Zapata" width="200"><br>
+<img src="../../t-photos/alvaro.jpg" alt="Álvaro Zapata" height="200"><br>
 <b>Álvaro Zapata — Coach</b>
 
 </div>
+
 
 ---
 
