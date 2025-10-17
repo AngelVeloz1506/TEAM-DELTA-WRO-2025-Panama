@@ -4,9 +4,18 @@
 
 <div align="center">
 
-| ![Ángel Veloz](../../t-photos/angel.jpg) | ![Luis Lockward](../../t-photos/luis.jpg) | ![Pedro Pérez](../../t-photos/pedro.jpg) |
-|:--:|:--:|:--:|
-| **Ángel Veloz** | **Luis Lockward** | **Pedro Pérez** |
+<table>
+  <tr>
+    <td><img src="../../t-photos/angel.jpg" alt="Ángel Veloz" width="220"></td>
+    <td><img src="../../t-photos/luis.jpg" alt="Luis Lockward" width="220"></td>
+    <td><img src="../../t-photos/pedro.jpg" alt="Pedro Pérez" width="220"></td>
+  </tr>
+  <tr>
+    <td><b>Ángel Veloz</b></td>
+    <td><b>Luis Lockward</b></td>
+    <td><b>Pedro Pérez</b></td>
+  </tr>
+</table>
 
 <br>
 
