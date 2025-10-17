@@ -1,11 +1,15 @@
 # TEAM DELTA — WRO 2025 (Future Engineers · Panama)
 
-
+<p align="center">
+  <img src="other/photos/logo.png" alt="Team Delta Logo" width="300">
+</p>
 
 **Pontificia Universidad Católica Madre y Maestra (PUCMM) — Dominican Republic**  
 Autonomous Vehicle Project for the **World Robot Olympiad 2025**, Future Engineers Category.
 
 This repository documents the complete development of our robot — covering its **design, hardware, programming, and testing**.  
+
+
 [![Youtube](https://img.shields.io/badge/Youtube-%23FF0000.svg?style=for-the-badge&logo=Youtube&logoColor=white)](https://www.youtube.com/@TeamDelta-WRO)
 
 ---

@@ -4,13 +4,13 @@
 
 <div align="center">
 
-| ![Ángel Veloz](../t-photos/angel.jpg) | ![Luis Lockward](../t-photos/luis.jpg) | ![Pedro Pérez](../t-photos/pedro.jpg) |
+| ![Ángel Veloz](../../t-photos/angel.jpg) | ![Luis Lockward](../../t-photos/luis.jpg) | ![Pedro Pérez](../../t-photos/pedro.jpg) |
 |:--:|:--:|:--:|
 | **Ángel Veloz** | **Luis Lockward** | **Pedro Pérez** |
 
 <br>
 
-<img src="../t-photos/alvaro.jpg" alt="Álvaro Zapata" width="200"><br>
+<img src="../../t-photos/alvaro.jpg" alt="Álvaro Zapata" width="200"><br>
 <b>Álvaro Zapata — Coach</b>
 
 </div>

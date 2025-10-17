@@ -6,38 +6,41 @@ Each view is documented with its respective image.
 ---
 
 ## Front View
+
 ![Front](front.jpg)
 
 ---
 
 ## Back View
+
 ![Back](back.jpg)
 
 ---
+
 ## Left View
+
 ![Left](left.jpg)
 
 ---
 
 ## Right View
+
 ![Right](right.jpg)
 
 ---
 
 ## Top View
+
 ![Top](top.jpg)
 
 ---
 
 ## Bottom View
+
 ![Bottom](bottom.jpg)
 
 ---
 
 ## Isometric View
+
 ![Isometric](isometric.jpg)
-
----
-
-## Old vs New
-![sidebyside](sidebyside.jpg)
