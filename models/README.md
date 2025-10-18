@@ -1,62 +1,3 @@
-# 3D Design — Structure & Evolution
-
-This section documents the robot’s mechanical structure and its evolution from early prototypes to the current competition-ready design.
-
----
-
-## Index
-
-1. [Overview](#overview)
-2. [Structure Overview (Two Floors)](#structure-overview-two-floors)
-   - [First Floor](#first-floor)
-   - [Second Floor](#second-floor)
-3. [CAD Assets and Printing](#cad-assets-and-printing)
-4. [Robot Design Evolution](#robot-design-evolution)
-   - [Version V1](#version-1-v1)
-   - [Version V4](#version-2-v4)
-   - [Version V6.5](#version-3-v65)
-5. [Summary](#summary)
-
----
-
-## Overview
-
-The 3D design of Team Delta’s robot was developed with a focus on modularity, serviceability, and lightweight performance.  
-Each prototype iteration aimed to improve mechanical strength, cable routing, and sensor integration while maintaining compliance with WRO Future Engineers regulations.
-
----
-
-## Structure Overview (Two Floors)
-
-The current build uses a two-floor modular chassis, which simplifies assembly, maintenance, and weight distribution.  
-Earlier versions used a three-floor layout that has since been consolidated for efficiency.
-
-### First Floor
-
-- Drivetrain: DC motors (RS555), wheel hubs, and steering (Ackermann geometry).  
-- Actuation Electronics: DRV8871 motor drivers, high-current wiring, and fuses.  
-- Front Module: ultrasonic sensor mounts (front, left, right) and structural guards.  
-- Mechanical: reinforced servo horn and chassis stiffeners.
-
-### Second Floor
-
-- Control and Power: ESP32 controller, voltage regulators (LM2596/HW-083), LiPo battery, and main power switch.  
-- Vision System: Raspberry Pi 5 and Logitech C920 camera mount.  
-- Wiring Management: organized cable channels and labeled access points.
-
----
-
-## CAD Assets and Printing
-
-All CAD assets are stored in the [`models/`](../models/) directory and organized by version (V1–V6.5).
-
-Printing Recommendations:
-
-- Infill: 25–35% depending on stress load.  
-- Materials: ASA for coupling parts; PLA for the rest.  
-
----
-
 ## Robot Design Evolution
 
 This section showcases the **evolution of TEAM DELTA’s robot design**, from the very first mechanical prototype to the latest integrated version prepared for autonomous testing.  
@@ -105,7 +46,20 @@ With improved accessibility, modular spacing, and a clear layout for expansion, 
 
 ---
 
-## Summary
+## Version 4 (V7)
 
-Each iteration — from V1 to V6.5 — represents a clear evolution in **engineering maturity**, moving from mechanical experimentation to an integrated, intelligent robotic system.  
+![Version V7](../other/photos/models.jpg)
+
+The **final version (V7)** showcases the **complete integration** of mechanical, electrical, and software subsystems, making it the team’s **competition-ready robot**.  
+This design focuses on **system reliability**, **cable management**, and **sensor calibration** for autonomous operation under WRO conditions.  
+
+The chassis now includes a **better mount for the camera** with a better and wider view of the field, beter **component positioning**, and **adjustable mounts** for ultrasonic units.  
+
+Additionally, this version introduced **fans** to optimize cooling a new  power switch just for the Raspberry Pi so we can control both power sources independently.
+
+V7 stands as the **culmination of iterative testing, engineering precision, and team collaboration**, ready to represent Team Delta at the **WRO 2025 Future Engineers** competition in Panama.
+
+---
+
+Each iteration — from V1 to V7 — represents a clear evolution in **engineering maturity**, moving from mechanical experimentation to an integrated, intelligent robotic system.  
 The process highlights the importance of **incremental design, testing, and optimization** in achieving a stable and reliable autonomous platform.

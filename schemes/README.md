@@ -137,8 +137,12 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 
 ### Main Switch & Fuses
 
+<div style="display:flex; justify-content:center; align-items:center; gap:60px;">
+  <img src="../other/photos/switch.jpg" width="300">
+  <img src="../other/photos/fuse.jpg" width="300">
+</div>
+
 <p align="center">
-  <img src="../other/photos/switch.jpg" width="300"><br>
   <em>Main power switch with inline fuses ensures safe system startup and over-current protection.<br>
   Provides fast disconnect during maintenance or emergency shutdown.</em>
 </p>
