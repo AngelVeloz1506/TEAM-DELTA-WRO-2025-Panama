@@ -153,7 +153,7 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 
 <p align="center">
   <img src="../schemes/Delta%20schematic%20design.jpg" width="500"><br>
-  <em>This diagram shows the ESP32, DRV8871 drivers, Raspberry Pi, C920 camera, sensors, servo, regulators, and power distribution.</em>
+  <em>This diagram shows the ESP32, DRV8871 drivers, sensors, servo, regulators, and power distribution.</em>
 </p>
 
 ---
