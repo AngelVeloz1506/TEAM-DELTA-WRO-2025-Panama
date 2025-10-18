@@ -137,10 +137,8 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 
 ### Main Switch
 
-  
-
 <p align="center">
-  <img src="../other/photos/switch.jpg" width="300">
+  <img src="../other/photos/switch.jpg" width="300"><br>
   <em>Main power switch ensures safe system startup.<br>
   Provides fast disconnect during maintenance or emergency shutdown.</em>
 </p>
