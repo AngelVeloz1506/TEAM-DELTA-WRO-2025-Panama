@@ -18,7 +18,7 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 | [MPU6050 (I2C)](https://www.amazon.com/giroscopio-magn%C3%A9tico-aceleraci%C3%B3n-acelerador-magnet%C3%B3metro/dp/B01I1J0Z7Y/ref=sr_1_2_sspa?sr=8-2-spons) | 1 | IMU (gyro + accel) |
 | [LiPo Battery 11.4 V 3000 mAh](https://www.ebay.com/itm/395464923168?_skw=zeee+11.4v+lipo+3s+3000mah) | 1 | XT60 recommended |
 | [LM2596 / HW-083 step-down regulator](https://www.amazon.com/convertidor-reguladores-ajustables-recomendado-alimentaci%C3%B3n/dp/B0FDB25T5L/ref=sr_1_1_sspa?sr=8-1-spons) | 2+ | 12→6 V (servo) and 12→5/3.3 V (logic) |
-| [Main switch](https://www.amazon.com/interruptor-basculante-encendido-precableado-autom%C3%B3vil/dp/B07S2QJKTX/ref=sr_1_2_sspa?sr=8-2-spons) + [Fuses](https://www.amazon.com/-/es/0-197x0-787-0-2x0-78-pulgadas-F1-6AL250V-Fusibles/dp/B07V288K4L/ref=sr_1_16?sr=8-16) | 1 set | Safety |
+| [Main switch](https://www.amazon.com/interruptor-basculante-encendido-precableado-autom%C3%B3vil/dp/B07S2QJKTX/ref=sr_1_2_sspa?sr=8-2-spons)|
 
 > **Tip:** Always maintain a **common GND** across battery, drivers, sensors, and MCU.
 
@@ -69,7 +69,7 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 
 <p align="center">
   <img src="../other/photos/ultrasonic.webp" width="300"><br>
-  <em>Three ultrasonic modules are mounted front, left, and right to measure obstacle distance.<br>
+  <em>Two ultrasonic modules are mounted front, left, and right to measure obstacle distance.<br>
   Each runs at 5 V (with 3.3 V logic shift) and 30 ms timeout for safe navigation.</em>
 </p>
 
@@ -99,7 +99,7 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 
 <p align="center">
   <img src="../other/photos/motor.webp" width="300"><br>
-  <em>Two RS555 12 V brushed DC motors drive the rear wheels through H-Bridges.<br>
+  <em>A RS555 12 V brushed DC motor drive the rear wheels through an H-Bridges.<br>
   Provide high torque and stable speed under load conditions.</em>
 </p>
 
@@ -129,17 +129,16 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 
 <p align="center">
   <img src="../other/photos/buck-converter.jpg" width="300"><br>
-  <em>LM2596/HW-083 buck converters step 12 V down to 6 V (for servo) and 5/3.3 V (for logic).<br>
+  <em>LM2596 buck converters step 12 V down to 6 V (for servo) and 5/3.3 V (for logic).<br>
   Include adjustable outputs and thermal protection for reliable voltage regulation.</em>
 </p>
 
 ---
 
-### Main Switch & Fuses
+### Main Switch
 
-<div style="display:flex; justify-content:center; align-items:center; gap:60px;">
+<div style="display:flex; justify-content:center; align-items:center;">
   <img src="../other/photos/switch.jpg" width="300">
-  <img src="../other/photos/fuse.jpg" width="300">
 </div>
 
 <p align="center">
