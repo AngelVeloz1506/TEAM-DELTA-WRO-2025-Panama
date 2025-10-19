@@ -125,6 +125,69 @@ This iteration integrates a **6-axis IMU (MPU6050)** combining gyroscope and acc
   DRV8871 **active brake** drives both inputs (brief pulse) to dissipate kinetic energy, enabling a crisp stop.
 
 ---
+# Final Version — Open-Challenge.ino
+
+This final version represents the **most complete autonomous control system** for Team Delta’s robot.  
+It integrates all major hardware subsystems — motor, servo, sensors, and IMU — into a unified control architecture with **PID-based velocity regulation** and **sensor-fusion steering**.
+
+---
+
+## Control Architecture Overview
+
+### 1) Motion Control (PID Feedback)
+- Encoder readings (pins **SA=27**, **SB=14**) compute **wheel RPM**.  
+- A **PID controller** adjusts the motor PWM output (`motorPin = 12`) to maintain a target RPM (`Setpoint = 1300`).  
+- Gains (empirical):
+  ```
+  Kp = 0.54, Ki = 0.05, Kd = 0.0125
+  ```
+- Output clamped to **10–255** to avoid stalling/overdrive.
+
+### 2) Steering via Ultrasonic Sensors
+- Two HC-SR04 sensors (`trigPin1/echoPin1` right, `trigPin2/echoPin2` left).  
+- Difference drives the steering servo:
+  ```cpp
+  int diff = d1 - d2;
+  int servoAngle = map(diff, -15, 15, 47, 127);
+  serv.write(constrain(servoAngle, 50, 130));
+  ```
+- Median-of-3 measurement for noise rejection.
+
+### 3) IMU Yaw Integration
+- **MPU6050** provides `gz` (deg/s); integrated with real `dt` to estimate **yaw**:
+  ```cpp
+  yaw += (gz / 131.0) * dt;
+  ```
+- Safety stop when yaw exceeds thresholds while path is straight (`diff < 5`):
+  - Center servo.  
+  - `ledcWrite(motorPin, 0);`  
+  - Enter hold loop.
+
+### 4) Startup & Safety
+- Waits for **BUTTON_PIN = 17** (LOW) before arming.  
+- DRV8871 direction pin (`otherPin = 13`) held LOW for forward; PWM on `motorPin`.
+
+---
+
+## Key Software Elements
+
+- **Encoder velocity low-pass filter** (≈25 Hz):
+  ```cpp
+  v1Filt = 0.854 * v1Filt + 0.0728 * v1 + 0.0728 * v1Prev;
+  ```
+- **Ultrasonic read**: median of three with timeouts to avoid spikes.  
+- **PID loop** runs continuously; PWM updated via `ledcWrite`.  
+- **Permanent stop** conditions on excessive yaw.  
+- **Button-gated startup** to prevent unintended motion.
+
+---
+
+## Related Work
+
+For earlier development stages (motion-only, PID calibration tests, Pixy2 vision, IMU yaw reset), see the  
+**[Releases documentation](../../Releases/README.md)** in `src/Releases/`.
+
+---
 
 Each code version represents a **milestone** in the robot’s autonomous development —  
 progressing from **manual timing** to **sensor fusion and vision-based control**, building a strong foundation for the final **competition-ready system**.

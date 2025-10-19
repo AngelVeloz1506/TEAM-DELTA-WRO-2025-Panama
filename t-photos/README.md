@@ -3,12 +3,12 @@
 
 ## Official Photo
 
-![Official Photo](official.jpg)
+![Official Photo](tphoto.jpg)
 
 ---
 
 ## Funny Photo
 
-![Funny Photo](funny.jpg)
+![Funny Photo](../other/photos/tphotos.jpg)
 
 ---
