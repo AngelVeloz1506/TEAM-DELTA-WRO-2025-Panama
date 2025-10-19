@@ -43,7 +43,6 @@ This section covers the **electronics, components (BOM), power**, and **schemati
   <img src="../other/photos/esp32.jpg" width="300"><br>
   <em>The ESP32 functions as the main MCU, managing motor control, sensors, and communications.<br>
   Its dual-core architecture enables reliable real-time performance and parallel task execution.</em>
-</p>
 
 | Feature | Value |
 |--|--|
@@ -53,6 +52,7 @@ This section covers the **electronics, components (BOM), power**, and **schemati
 | PWM (LEDC) | Yes |
 | Flash | 4 MB |
 
+</p>
 ---
 
 ### Camera (Logitech C920)

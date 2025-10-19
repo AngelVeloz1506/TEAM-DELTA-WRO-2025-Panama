@@ -5,10 +5,13 @@
 #include "MPU6050.h"
 #include <PID_v1.h>
 
+unsigned long previousMillis = 0; // Stores the last time the action was run
+const unsigned long interval = 1000; // Interval in milliseconds (e.g., 1000 ms = 1 second)
+
 #define SA 27
 #define SB 14
-#define BUTTON_PIN 17
 
+// ===== Globals =====
 long prevT = 0;
 int posPrev = 0;
 volatile int pos_i = 0;
@@ -17,6 +20,8 @@ float v1Filt = 0;
 float v1Prev = 0;
 
 const int PULSOS_POR_REV = 12;
+
+#define BUTTON_PIN 17
 
 // --- IMU ---
 MPU6050 mpu;
@@ -43,7 +48,13 @@ const int motorPin = 12;   // PWM velocidad
 const int otherPin = 13;   // Dirección / freno
 const int freq = 10000;    // 10 kHz
 const int resolution = 8;  // 8 bits (0-255)
+bool dirc = false;
 
+const int SERVO_CENTER = 87;  // prueba: ajústalo hasta que vaya recto
+
+bool out;
+
+// Lectura robusta HC-SR04 (mediana de 3, pulldown)
 static inline long medirUna(int trigPin, int echoPin) {
   unsigned long t = micros();
   while (digitalRead(echoPin) == HIGH && (micros() - t) < 2000) {}
@@ -57,8 +68,8 @@ static inline long medirUna(int trigPin, int echoPin) {
   return cm;
 }
 long medirDistancia(int trigPin, int echoPin) {
-  long a = medirUna(trigPin, echoPin); delayMicroseconds(500);
-  long b = medirUna(trigPin, echoPin); delayMicroseconds(500);
+  long a = medirUna(trigPin, echoPin); delayMicroseconds(100);
+  long b = medirUna(trigPin, echoPin); delayMicroseconds(100);
   long c = medirUna(trigPin, echoPin);
   if (a > b) { long t=a; a=b; b=t; }
   if (b > c) { long t=b; b=c; c=t; }
@@ -70,7 +81,7 @@ long medirDistancia(int trigPin, int echoPin) {
 double Setpoint, Input, Output;
 
 // Initial guess for PID tuning
-double Kp = 0.48, Ki = 0.4375, Kd = 0.109375;
+double Kp = 0.54, Ki = 0.05, Kd = 0.0125;
 
 // Create PID object
 PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
@@ -82,13 +93,8 @@ void IRAM_ATTR readEncoder() {
   pos_i += increment;
 }
 
-enum State { NORMAL, GREEN, RED};
-State state = NORMAL;
-
 void setup() {
   Serial.begin(115200);
-  pinMode(2, OUTPUT);
-
   pinMode(SA, INPUT_PULLUP);
   pinMode(SB, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(SA), readEncoder, RISING);
@@ -105,224 +111,125 @@ void setup() {
   pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   serv.attach(servoPin);
-  serv.write(87);
+  serv.write(90);
 
   pinMode(otherPin, OUTPUT);
   digitalWrite(otherPin, LOW);  
   ledcAttach(motorPin, freq, resolution);
 
     // ===== PID Setup =====
-  Setpoint = 500; // Target RPM
+  Setpoint = 1300; // Target RPM
   myPID.SetMode(AUTOMATIC);
-  myPID.SetOutputLimits(0, 255); // PWM range
+  myPID.SetOutputLimits(10, 255); // PWM range
 
   while(true){
     if(digitalRead(BUTTON_PIN) == LOW){
       delay(500);
-      Serial.println("Started...");
       return;
     }
   }
 }
 
 void loop() {
-  String data = Serial.readStringUntil('\n');
+  // Safely read encoder position
+  int pos = 0;
+  noInterrupts();
+  pos = pos_i;
+  interrupts();
 
-  int ID = data.substring(0, 1).toInt();
-  int X    = data.substring(1, 4).toInt();
-  int W = data.substring(4, 7).toInt();
+  // Compute velocity from position difference
+  long currT = micros();
+  float deltaT = (currT - prevT) / 1.0e6;
+  float velocity1 = (pos - posPrev) / deltaT;
+  posPrev = pos;
+  prevT = currT;
 
-  switch(state){
-    case NORMAL: {
-      
-      Serial.println("NORMAL");
-      digitalWrite(2, LOW);
-      int pos = 0;
-      noInterrupts();
-      pos = pos_i;
-      interrupts();
+  // Convert to RPM
+  float v1 = velocity1 / PULSOS_POR_REV * 60.0;
 
-      long currT = micros();
-      float deltaT = (currT - prevT) / 1.0e6;
-      float velocity1 = (pos - posPrev) / deltaT;
-      posPrev = pos;
-      prevT = currT;
+  // Low-pass filter (25 Hz cutoff)
+  v1Filt = 0.854 * v1Filt + 0.0728 * v1 + 0.0728 * v1Prev;
+  v1Prev = v1;
 
-      float v1 = velocity1 / PULSOS_POR_REV * 60.0;
+  Input = v1Filt;
 
-      v1Filt = 0.854 * v1Filt + 0.0728 * v1 + 0.0728 * v1Prev;
-      v1Prev = v1;
+  //delay(10);
 
-      Input = v1Filt;
-      
-      myPID.Compute();
-      ledcWrite(motorPin, (int)Output);
+  // ====== Run PID continuously ======
+  myPID.Compute();
+  ledcWrite(motorPin, (int)Output);
 
-      // ====== Read ultrasonics ======
-      long d1 = medirDistancia(trigPin2, echoPin2); // left
-      long d2 = medirDistancia(trigPin1, echoPin1); // right
+  // ====== Read ultrasonics ======
+  long d1 = medirDistancia(trigPin2, echoPin2); // left
+  long d2 = medirDistancia(trigPin1, echoPin1); // right
 
-      unsigned long now = millis();
-      unsigned long nowMicros = micros();
+  unsigned long now = millis();
+  unsigned long nowMicros = micros();
 
-      // ====== IMU update (always, with real Δt) ======
-      float dt = (nowMicros - lastIMUTime) / 1000000.0;  // seconds
-      lastIMUTime = nowMicros;
+  // ====== IMU update (always, with real Δt) ======
+  float dt = (nowMicros - lastIMUTime) / 1000000.0;  // seconds
+  lastIMUTime = nowMicros;
 
-      mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-      float yaw_rate = (float)gz / 131.0; // deg/s
-      yaw += yaw_rate * dt;
+  mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
+  float yaw_rate = (float)gz / 131.0; // deg/s
+  yaw += yaw_rate * dt;
 
-      // --- ultrasonic steering ---
-      int diff = d1 - d2;
-      int servoAngle = map(diff, -20, 20, 47, 127);
-      serv.write(constrain(servoAngle, 57, 117));
+  // --- ultrasonic steering ---
+  int diff = d1 - d2;
+  int servoAngle = map(diff, -15, 15, 47, 127);
+  serv.write(constrain(servoAngle, 50, 130));
 
-      // ====== Motor speed control ======
-      float accelX_g = (float)ax / 16384.0;
-      float accelX_ms2 = accelX_g * 9.81;
-      int motorVel = map(accelX_ms2, -5, 5, 115, 255);
-      motorVel = constrain(motorVel, 0, 255);
+  // ====== Motor speed control ======
+  float accelX_g = (float)ax / 16384.0;
+  float accelX_ms2 = accelX_g * 9.81;
+  int motorVel = map(accelX_ms2, -5, 5, 115, 255);
+  motorVel = constrain(motorVel, 0, 255);
 
-      unsigned long currentMillis = millis();
+  unsigned long currentMillis = millis();
 
-      if(yaw > 1105 && diff < 10){
-        delay(350);
-        serv.write(87);    
-        ledcWrite(motorPin, 0);
-        while(true){
-        }
-      }
+  /*if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis; // Reset timer
+    yaw = 90;
+  }*/
 
-      if(yaw < -1030 && diff < 10){
-        delay(150);
-        serv.write(87);    
-        ledcWrite(motorPin, 0);
-        while(true){
-        }
-      }
-      if (ID == 0 && W > 20) state = GREEN;
-      else if (ID == 1 && W > 20) state = RED;
-      break;
+  /*if(pos >= 4000){
+    //serv.write(90);
+    ledcWrite(motorPin, 0);
+    while(true){
     }
+  }*/
 
-    case GREEN: {
-
-      Serial.println("GREEN");
-      digitalWrite(2, HIGH);
-      unsigned long now = millis();
-      unsigned long nowMicros = micros();
-
-      // ====== IMU update (always, with real Δt) ======
-      float dt = (nowMicros - lastIMUTime) / 1000000.0;  // seconds
-      lastIMUTime = nowMicros;
-
-      mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-      float yaw_rate = (float)gz / 131.0; // deg/s
-      yaw += yaw_rate * dt;
-
-      int pos = 0;
-      noInterrupts();
-      pos = pos_i;
-      interrupts();
-
-      long currT = micros();
-      float deltaT = (currT - prevT) / 1.0e6;
-      float velocity1 = (pos - posPrev) / deltaT;
-      posPrev = pos;
-      prevT = currT;
-
-      float v1 = velocity1 / PULSOS_POR_REV * 60.0;
-
-      v1Filt = 0.854 * v1Filt + 0.0728 * v1 + 0.0728 * v1Prev;
-      v1Prev = v1;
-
-      Input = v1Filt;
-        
-      myPID.Compute();
-      ledcWrite(motorPin, (int)Output);
-
-      int steer = map(X, 0, 1700, 47, 127);
-      serv.write(steer);
-
-      if(yaw > 1105){
-        delay(350);
-        serv.write(87);    
-        ledcWrite(motorPin, 0);
-        while(true){
-        }
-      }
-
-      if(yaw < -1030){
-        delay(150);
-        serv.write(87);    
-        ledcWrite(motorPin, 0);
-        while(true){
-        }
-      }
-
-      if (X > 750) state = NORMAL;
-      break;
-    }
-
-    case RED: {
-
-      Serial.println("RED");
-      digitalWrite(2, HIGH);
-      unsigned long now = millis();
-      unsigned long nowMicros = micros();
-
-      // ====== IMU update (always, with real Δt) ======
-      float dt = (nowMicros - lastIMUTime) / 1000000.0;  // seconds
-      lastIMUTime = nowMicros;
-
-      mpu.getMotion6(&ax, &ay, &az, &gx, &gy, &gz);
-      float yaw_rate = (float)gz / 131.0; // deg/s
-      yaw += yaw_rate * dt;
-
-      int pos = 0;
-      noInterrupts();
-      pos = pos_i;
-      interrupts();
-
-      long currT = micros();
-      float deltaT = (currT - prevT) / 1.0e6;
-      float velocity1 = (pos - posPrev) / deltaT;
-      posPrev = pos;
-      prevT = currT;
-
-      float v1 = velocity1 / PULSOS_POR_REV * 60.0;
-
-      v1Filt = 0.854 * v1Filt + 0.0728 * v1 + 0.0728 * v1Prev;
-      v1Prev = v1;
-
-      Input = v1Filt;
-        
-      myPID.Compute();
-      ledcWrite(motorPin, (int)Output);
-
-      int steer = map(X, -870, 830, 47, 127);
-      serv.write(steer);
-
-      if(yaw > 1105){
-        delay(350);
-        serv.write(87);    
-        ledcWrite(motorPin, 0);
-        while(true){
-        }
-      }
-
-      if(yaw < -1030){
-        delay(150);
-        serv.write(87);    
-        ledcWrite(motorPin, 0);
-        while(true){
-        }
-      }
-
-      // Return to normal if all objects are far
-      if (X < 50) state = NORMAL;
-      break;
+  if(yaw > 1105 && diff < 5){
+    delay(350);
+    serv.write(87);    
+    ledcWrite(motorPin, 0);
+    while(true){
     }
   }
+
+  if(yaw < -1030 && diff < 5){
+    delay(150);
+    serv.write(87);    
+    ledcWrite(motorPin, 0);
+    while(true){
+    }
+  }
+
+  /*if (v1Filt == 0) {
+    serv.write(90);
+    digitalWrite(otherPin, HIGH);
+    delay(2000);
+    if(yaw > 0){
+      serv.write(115);
+      digitalWrite(otherPin, LOW);
+      ledcWrite(motorPin, 255);
+      delay(200);      
+    }
+    else if(yaw < 0){
+      serv.write(70);
+      digitalWrite(otherPin, LOW);
+      ledcWrite(motorPin, 255);
+      delay(200);   
+    }
+  }*/
 }

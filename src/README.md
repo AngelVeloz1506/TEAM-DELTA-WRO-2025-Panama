@@ -191,7 +191,7 @@
    - `setMotorSpeed(speed)` → set motor duty cycle (basic)  
    - `brakeMotor()` → apply active brake  
 
-   ---
+---
 
    ## Suggested Improvements
 
@@ -201,4 +201,11 @@
    - Expand to **bi-directional motor control** (two PWM inputs)  
    - Add **LED or buzzer** for startup/stop feedback  
 
-   ---
+---
+
+## Previous Versions
+
+For earlier iterations of the robot’s control system — including motion-only logic, PID stabilization, Pixy2 vision integration, and IMU-based yaw reset — see the  
+**[Releases documentation](../releases/README.md)** located in the `src/releases` directory.
+
+This section details the evolution of the system through multiple code versions (`open-v1.ino` to `open-v4.ino`), showing how control strategies and sensor integration improved toward the final design.
